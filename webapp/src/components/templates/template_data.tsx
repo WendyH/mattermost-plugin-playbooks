@@ -53,488 +53,278 @@ const preprocessTemplates = (presetTemplates: PresetTemplate[]): PresetTemplate[
 
 export const PresetTemplates: PresetTemplate[] = preprocessTemplates([
     {
-        title: 'Blank',
+        title: 'Пустой',
         icon: <ClipboardChecklist/>,
         color: '#FFBC1F14',
-        description: 'Start with a blank state and create your own masterpiece.',
+        description: 'Начните с пустого состояния и создайте свой собственный шедевр.',
         template: {
             ...emptyPlaybook(),
-            title: 'Blank',
-            description: 'Customize this playbook\'s description to give an overview of when and how this playbook is run.',
+            title: 'Пустой',
+            description: 'Настройте описание этого сценария, чтобы дать обзор того, когда и как этот сценарий запускается.',
         },
     },
     {
-        title: 'Product Release',
-        description: 'Perfect your release process from ideation to production.',
+        title: 'Выпуск продукта',
+        description: 'Совершенствуйте процесс выпуска от идеи до производства.',
         icon: <Rocket/>,
         color: '#C4313314',
         author: <MattermostLogo/>,
         template: {
             ...emptyPlaybook(),
-            title: 'Product Release',
-            description: 'Customize this playbook to reflect your own product release process.',
+            title: 'Выпуск продукта',
+            description: 'Настройте этот сценарий так, чтобы он отражал ваш собственный процесс выпуска продукта.',
             checklists: [
                 {
-                    title: 'Prepare code',
+                    title: 'Подготовка',
                     items: [
-                        newChecklistItem('Triage and check for pending tickets and PRs to merge'),
-                        newChecklistItem('Start drafting changelog, feature documentation, and marketing materials'),
-                        newChecklistItem('Review and update project dependencies as needed'),
-                        newChecklistItem('QA prepares release testing assignments'),
-                        newChecklistItem('Merge database upgrade'),
+                        newChecklistItem('Проверка заявок и данных от отдела продаж для объединения'),
+                        newChecklistItem('Начать составлять список изменений, документацию и маркетинговые материалы.'),
+                        newChecklistItem('Просмотр и обновление списка необходимых ресурсов'),
+                        newChecklistItem('Подготовка задания к дегустации продукта'),
                     ],
                 },
                 {
-                    title: 'Release testing',
+                    title: 'Тестирование',
                     items: [
-                        newChecklistItem('Cut a Release Candidate (RC-1)'),
-                        newChecklistItem('QA runs smoke tests on the pre-release build'),
-                        newChecklistItem('QA runs automated load tests and upgrade tests on the pre-release build'),
-                        newChecklistItem('Triage and merge regression bug fixes'),
+                        newChecklistItem('Получить релиз-кандидат (RC-1)'),
+                        newChecklistItem('Проведение теста/дегустации на предварительной версии продукта'),
+                        newChecklistItem('Исправление ошибок, учёт пожеланий и замечаний.'),
                     ],
                 },
                 {
-                    title: 'Prepare release for production',
+                    title: 'Подготовить продукт к производству',
                     items: [
-                        newChecklistItem('QA final approves the release'),
-                        newChecklistItem('Cut the final release build and publish'),
-                        newChecklistItem('Deploy changelog, upgrade notes, and feature documentation'),
-                        newChecklistItem('Confirm minimum server requirements are updated in documentation'),
-                        newChecklistItem('Update release download links in relevant docs and webpages'),
-                        newChecklistItem('Publish announcements and marketing'),
+                        newChecklistItem('Утверждение финальной версии продукта'),
+                        newChecklistItem('Производство финальной версии продукта'),
+                        newChecklistItem('Фиксирование журнала изменений, заметок об обновлении и документации по продукту'),
+                        newChecklistItem('Публикация объявлений и маркетинг'),
                     ],
                 },
                 {
-                    title: 'Post-release',
+                    title: 'Пост-релиз',
                     items: [
-                        newChecklistItem('Schedule a release retrospective'),
-                        newChecklistItem('Add dates for the next release to the release calendar and communicate to stakeholders'),
-                        newChecklistItem('Compose release metrics'),
-                        newChecklistItem('Prepare security update communications'),
-                        newChecklistItem('Archive the incident channel and create a new one for the next release'),
+                        newChecklistItem('Запланировать выпуск ретроспективы'),
+                        newChecklistItem('Добавьте даты следующего релиза в календарь релизов и сообщите заинтересованным сторонам'),
+                        newChecklistItem('Составьте метрики выпуска'),
+                        newChecklistItem('Архивация канала инцидента'),
                     ],
                 },
             ],
             create_public_playbook_run: false,
-            channel_name_template: 'Release (vX.Y)',
+            channel_name_template: 'Продукт "рабочее название"',
             message_on_join_enabled: true,
             message_on_join:
-                mtrim`Hello and welcome!
+                mtrim`Привет и добро пожаловать!
 
-                This channel was created as part of the **Product Release** playbook and is where conversations related to this release are held. You can customize this message using markdown so that every new channel member can be welcomed with helpful context and resources.`,
+                Этот канал был создан как часть сценария **Выпуск продукта**, и на нем ведутся обсуждения, связанные с этим выпуском. Вы можете настроить это сообщение, используя markdown (язык разметки), чтобы каждый новый участник канала мог приветствоваться полезным контекстом и ресурсами.`,
             run_summary_template_enabled: true,
             run_summary_template:
-                mtrim`**About**
-                - Version number: TBD
-                - Target-date: TBD
+                mtrim`**О продукте**
+                - Название: TBD
+                - Срок: TBD
 
-                **Resources**
-                - Jira filtered view: [link TBD](#)
-                - Blog post draft: [link TBD](#)`,
+                **Ресурсы**
+                - `,
             reminder_message_template:
-                mtrim`### Changes since last update
+                mtrim`### Изменения с момента последнего обновления
                 -
 
-                ### Outstanding PRs
+                ### Отставание в процессах
                 - `,
             reminder_timer_default_seconds: 24 * 60 * 60, // 24 hours
             retrospective_template:
-                mtrim`### Start
+                mtrim`### Начато
                 -
 
-                ### Stop
+                ### Закончено
                 -
 
-                ### Keep
+                ### Всё ещё в процессе
                 - `,
             retrospective_reminder_interval_seconds: 0, // Once
         },
     },
     {
-        title: 'Incident Resolution',
-        description: 'Resolving incidents requires speed and accuracy. Streamline your processes for rapid response and resolution.',
+        title: 'Разрешение инцидента',
+        description: 'Разрешение инцидентов требует скорости и точности. Оптимизируйте свои процессы для быстрого реагирования и разрешения проблем.',
         icon: <DumpsterFire/>,
         author: <MattermostLogo/>,
         color: '#33997014',
         template: {
             ...emptyPlaybook(),
-            title: 'Incident Resolution',
-            description: 'Customize this playbook to reflect your own incident resolution process.',
+            title: 'Разрешение инцидента',
+            description: 'Настройте этот сценарий так, чтобы он отражал ваш собственный процесс разрешения инцидентов.',
             checklists: [
                 {
-                    title: 'Setup for triage',
+                    title: 'Настройка для сортировки',
                     items: [
-                        newChecklistItem('Add on-call engineer to channel'),
-                        newChecklistItem('Start bridge call', '', '/zoom start'),
-                        newChecklistItem('Update description with current situation'),
-                        newChecklistItem('Create an incident ticket', '', '/jira create'),
-                        newChecklistItem('Assign severity in description (ie. #sev-2)'),
-                        newChecklistItem('(If #sev-1) Notify @vip'),
+                        newChecklistItem('Добавить дежурного инженера на канал'),
+                        newChecklistItem('Созвон', '', '/zoom start'),
+                        newChecklistItem('Обновление описания с учетом текущей ситуации'),
+                        newChecklistItem('Создать заявку на инцидент', '', '/jira create'),
+                        newChecklistItem('Назначьте серьезность в описании (например, #sev-2)'),
+                        newChecklistItem('(Если #sev-1) Сообщить @vip'),
                     ],
                 },
                 {
-                    title: 'Investigate cause',
+                    title: 'Расследовать причину',
                     items: [
-                        newChecklistItem('Add suspected causes here and check off if eliminated'),
+                        newChecklistItem('Добавьте сюда предполагаемые причины и отметьте, если они устранены'),
                     ],
                 },
                 {
-                    title: 'Resolution',
+                    title: 'Разрешение',
                     items: [
-                        newChecklistItem('Confirm issue has been resolved'),
-                        newChecklistItem('Notify customer success managers'),
-                        newChecklistItem('(If sev-1) Notify leader team'),
+                        newChecklistItem('Подтверждение, что проблема решена'),
+                        newChecklistItem('Сообщение менеджерам и всем ответственным за этот участок'),
+                        newChecklistItem('(Если sev-1) Сообщить руководителю подразделения'),
                     ],
                 },
                 {
-                    title: 'Retrospective',
+                    title: 'Ретроспектива',
                     items: [
-                        newChecklistItem('Send out survey to participants'),
-                        newChecklistItem('Schedule post-mortem meeting'),
-                        newChecklistItem('Save key messages as timeline entries'),
-                        newChecklistItem('Publish retrospective report'),
+                        newChecklistItem('Рассылка опроса участникам'),
+                        newChecklistItem('Назначить последнюю встречу этого инцидента'),
+                        newChecklistItem('Сохранить ключевые сообщения как записи временной шкалы'),
+                        newChecklistItem('Опубликовать ретроспективный отчет'),
                     ],
                 },
             ],
             create_public_playbook_run: false,
-            channel_name_template: 'Incident: <name>',
+            channel_name_template: 'Инцидент: <name>',
             message_on_join_enabled: true,
             message_on_join:
-                mtrim`Hello and welcome!
+                mtrim`Привет и добро пожаловать!
 
-                This channel was created as part of the **Incident Resolution** playbook and is where conversations related to this release are held. You can customize this message using markdown so that every new channel member can be welcomed with helpful context and resources.`,
+                Этот канал был создан как часть сценария **Разрешение инцидентов**, и на нем ведутся обсуждения, связанные с этим выпуском. Вы можете настроить это сообщение, используя markdown (язык разметки), чтобы каждый новый участник канала мог приветствоваться полезным контекстом и ресурсами.`,
             run_summary_template_enabled: true,
             run_summary_template:
-                mtrim`**Summary**
+                mtrim`**Сводка**
 
-                **Customer impact**
+                **Воздействие на клиентов**
 
-                **About**
-                - Severity: #sev-1/2/3
-                - Responders:
-                - ETA to resolution:`,
+                **О...**
+                - Серъёзность инцидента: #sev-1/2/3
+                - Ответственные:
+                - Расчетное время разрешения:`,
             reminder_message_template: '',
             reminder_timer_default_seconds: 60 * 60, // 1 hour
             retrospective_template:
-                mtrim`### Summary
-                This should contain 2-3 sentences that give a reader an overview of what happened, what was the cause, and what was done. The briefer the better as this is what future teams will look at first for reference.
+                mtrim`### Сводка
+                Он должен содержать 2-3 предложения, которые дают читателю общее представление о том, что произошло, какова была причина и что было сделано. Чем короче, тем лучше, так как это то, на что будущие команды будут смотреть в первую очередь для справки.
 
-                ### What was the impact?
-                This section describes the impact of this playbook run as experienced by internal and external customers as well as stakeholders.
+                ### Каково было влияние?
+                В этом разделе описывается влияние этого сценария на опыт внутренних и внешних клиентов, а также заинтересованных сторон.
 
-                ### What were the contributing factors?
-                This playbook may be a reactive protocol to a situation that is otherwise undesirable. If that's the case, this section explains the reasons that caused the situation in the first place. There may be multiple root causes - this helps stakeholders understand why.
+                ### Каковы были способствующие факторы?
+                Этот сценарий может быть реактивным протоколом к ситуации, которая в противном случае нежелательна. Если это так, в этом разделе объясняются причины, вызвавшие ситуацию в первую очередь. Может быть несколько основных причин — это помогает заинтересованным сторонам понять, почему так всё произошло.
 
-                ### What was done?
-                This section tells the story of how the team collaborated throughout the event to achieve the outcome. This will help future teams learn from this experience on what they could try.
+                ### Что было сделано?
+                В этом разделе рассказывается о том, как команда сотрудничала на протяжении всего мероприятия для достижения результата. Это поможет будущим командам узнать из этого опыта о том, что они могут попробовать.
 
-                ### What did we learn?
-                This section should include perspective from everyone that was involved to celebrate the victories and identify areas for improvement. For example: What went well? What didn't go well? What should be done differently next time?
+                ### Что мы узнали?
+                Этот раздел должен включать точки зрения всех, кто участвовал в праздновании побед и определении областей, требующих улучшения. Например: Что прошло хорошо? Что не получилось? Что нужно сделать по-другому в следующий раз?
 
-                ### Follow-up tasks
-                This section lists the action items to turn learnings into changes that help the team become more proficient with iterations. It could include tweaking the playbook, publishing the retrospective, or other improvements. The best follow-ups will have a clear owner assigned as well as due date.
+                ### Последующие задачи
+                В этом разделе перечислены действия, которые помогут преобразовать полученные знания в изменения, которые помогут команде стать более опытной в итерациях. Это может включать настройку сценария, публикацию ретроспективы или другие улучшения. У лучших последующих действий будет назначен четкий владелец, а также срок выполнения.
 
-                ### Timeline highlights
-                This section is a curated log that details the most important moments. It can contain key communications, screen shots, or other artifacts. Use the built-in timeline feature to help you retrace and replay the sequence of events.`,
+                ### Основные моменты хронологии
+                Этот раздел представляет собой тщательно подобранный журнал, в котором подробно описаны наиболее важные моменты. Он может содержать ключевые сообщения, снимки экрана или другие артефакты. Используйте встроенную функцию временной шкалы, чтобы проследить и воспроизвести последовательность событий.`,
             retrospective_reminder_interval_seconds: 24 * 60 * 60, // 24 hours
             signal_any_keywords_enabled: true,
-            signal_any_keywords: ['sev-1', 'sev-2', '#incident', 'this is serious'],
+            signal_any_keywords: ['sev-1', 'sev-2', '#инцидент', 'это серьезно'],
         },
     },
     {
-        title: 'Customer Onboarding',
-        description: 'Create a standardized, smooth onboarding experience for new customers to get them up and running quickly. ',
-        icon: <Handshake/>,
-        color: '#3C507A14',
-        author: <MattermostLogo/>,
-        template: {
-            ...emptyPlaybook(),
-            title: 'Customer Onboarding',
-            description: mtrim`New Mattermost customers are onboarded following a process similar to this playbook.
-
-            Customize this playbook to reflect your own customer onboarding process.`,
-            checklists: [
-                {
-                    title: 'Sales to Post-Sales Handoff',
-                    items: [
-                        newChecklistItem('AE intro CSM and CSE to key contacts'),
-                        newChecklistItem('Create customer account Drive folder'),
-                        newChecklistItem('Welcome email within 24hr of Closed Won'),
-                        newChecklistItem('Schedule initial kickoff call with customer'),
-                        newChecklistItem('Create account plan (Tier 1 or 2)'),
-                        newChecklistItem('Send discovery Survey'),
-                    ],
-                },
-                {
-                    title: 'Customer Technical Onboarding',
-                    items: [
-                        newChecklistItem('Schedule technical discovery call'),
-                        newChecklistItem('Review current Zendesk tickets and updates'),
-                        newChecklistItem('Log customer technical details in Salesforce'),
-                        newChecklistItem('Confirm customer received technical discovery summary package'),
-                        newChecklistItem('Send current Mattermost “Pen Test” report to customer'),
-                        newChecklistItem('Schedule plugin/integration planning session'),
-                        newChecklistItem('Confirm data migration plans'),
-                        newChecklistItem('Extend Mattermost with integrations'),
-                        newChecklistItem('Confirm functional & load test plans'),
-                        newChecklistItem('Confirm team/channel organization'),
-                        newChecklistItem('Sign up for Mattermost blog for releases and announcements'),
-                        newChecklistItem('Confirm next upgrade version'),
-                    ],
-                },
-                {
-                    title: 'Go-Live',
-                    items: [
-                        newChecklistItem('Order Mattermost swag package for project team'),
-                        newChecklistItem('Confirm end-user roll-out plan'),
-                        newChecklistItem('Confirm customer go-live'),
-                        newChecklistItem('Perform post go-live retrospective'),
-                    ],
-                },
-                {
-                    title: 'Optional value prompts after go-live',
-                    items: [
-                        newChecklistItem('Intro playbooks and boards'),
-                        newChecklistItem('Inform upgrading Mattermost 101'),
-                        newChecklistItem('Share tips & tricks w/ DevOps focus'),
-                        newChecklistItem('Share tips & tricks w/ efficiency focus'),
-                        newChecklistItem('Schedule quarterly roadmap review w/ product team'),
-                        newChecklistItem('Review with executives (Tier 1 or 2)'),
-                    ],
-                },
-            ],
-            create_public_playbook_run: false,
-            channel_name_template: 'Customer Onboarding: <name>',
-            message_on_join_enabled: true,
-            message_on_join:
-                mtrim`Hello and welcome!
-
-                This channel was created as part of the **Customer Onboarding** playbook and is where conversations related to this customer are held. You can customize this message using markdown so that every new channel member can be welcomed with helpful context and resources.`,
-            run_summary_template_enabled: true,
-            run_summary_template:
-                mtrim`**About**
-                - Account name: [TBD](#)
-                - Salesforce opportunity: [TBD](#)
-                - Order type:
-                - Close date:
-
-                **Team**
-                - Sales Rep: @TBD
-                - Customer Success Manager: @TBD`,
-            retrospective_template:
-                mtrim`### What went well?
-                -
-
-                ### What could have gone better?
-                -
-
-                ### What should be changed for next time?
-                - `,
-            retrospective_reminder_interval_seconds: 0, // Once
-        },
-    },
-    {
-        title: 'Employee Onboarding',
-        description: 'Set your new hires up for success with input from your entire organization, in one smooth process.',
-        icon: <SmileySunglasses/>,
-        color: '#FFBC1F14',
-        author: <MattermostLogo/>,
-        template: {
-            ...emptyPlaybook(),
-            title: 'Employee Onboarding',
-            description: mtrim`Every new Mattermost Staff member completes this onboarding process when joining the company.
-
-            Customize this playbook to reflect your own employee onboarding process.`,
-            checklists: [
-                {
-                    title: 'Pre-day one',
-                    items: [
-                        newChecklistItem('Complete the [Onboarding Systems Form in the IT HelpDesk](https://helpdesk.mattermost.com/support/home)'),
-                        newChecklistItem(
-                            'Complete the onboarding template prior to your new staff member\'s start date',
-                            mtrim`Managers play a large role in setting their new direct report up for success and making them feel welcome by setting clear expectations and preparing the team and internal stakeholders for how they can help new colleagues integrate and connect organizationally and culturally.
-                                * **Onboarding Objectives:** Clarify the areas and projects your new team member should focus on in their first 90 days. Use the _Overview of the Role_ that you completed when you opened the role.
-                                * **AOR clarity:** Identify AORs that are relevant for your new hire, and indicate any AORs that your new hire will [DRI](https://handbook.mattermost.com/company/about-mattermost/list-of-terms#dri) or act as backup DRI. As needed, clarify AOR transitions with internal stakeholders ahead of your new hire's start date. See [AOR page](https://handbook.mattermost.com/operations/operations/areas-of-responsibility) Include the interview panel and their respective focus areas.
-                                * **Assign an Onboarding Peer:** The Onboarding Peer or peers should be an individual or group of people that can help answer questions about the team, department and Mattermost. In many ways, an Onboarding Peer may be an [end-boss](https://handbook.mattermost.com/company/about-mattermost/mindsets#mini-boss-end-boss) for specific AORs. Managers should ask permission of a potential Onboarding Peer prior to assignment.`,
-                        ),
-                    ],
-                },
-                {
-                    title: 'Week one',
-                    items: [
-                        newChecklistItem(
-                            'Introduce our new staff member in the [Welcome Channel](https://community.mattermost.com/private-core/channels/welcome)',
-                            mtrim`All new hires are asked to complete a short bio and share with their Managers. Managers should include this bio in the welcome message.
-
-                                Be sure to include the hashtag \#newcolleague when posting your message.`,
-                        ),
-                        newChecklistItem(
-                            'Review Team [AORs](https://handbook.mattermost.com/operations/operations/areas-of-responsibility)',
-                            'This is also a good time to review the new hire\'s AOR and onboarding expectations.'
-                        ),
-                        newChecklistItem(
-                            'Review list of key internal partners',
-                            'These are individuals the new staff member will work with and who the new staff member should set up meetings with during their first month or two.',
-                        ),
-                        newChecklistItem(
-                            'Add to Mattermost channels',
-                            'Ensure your team member is added to appropriate channels based on team and role.',
-                        ),
-                        newChecklistItem(
-                            'Share team cadences',
-                            'Review specific team cadences, operating norms and relevant playbooks.',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Month one',
-                    items: [
-                        newChecklistItem('Review Company and Team [V2MOMs](https://handbook.mattermost.com/company/how-to-guides-for-staff/how-to-v2mom)'),
-                        newChecklistItem('Align on role responsibilities and expectations'),
-                        newChecklistItem(
-                            'COM Introduction',
-                            'New team members are invited to introduce themselves at [COM](https://handbook.mattermost.com/operations/operations/company-cadence#customer-obsession-meeting-aka-com) during their second week. If they\'re not comfortable doing their own introduction, Managers will do so on their behalf.',
-                        ),
-                        newChecklistItem(
-                            '[Shoulder Check](https://handbook.mattermost.com/company/about-mattermost/mindsets#shoulder-check)',
-                            'Assess potential blindspots and ask for feedback.',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Month two',
-                    items: [
-                        newChecklistItem(
-                            '90-day New Colleague Feedback',
-                            'Managers are notified to kick off the [New Colleague Review Process](https://handbook.mattermost.com/contributors/onboarding#new-colleague-90-day-feedback-process) on their new staff member\'s 65th day. The feedback will include a summary of the new staff member\'s responsibilities during the first 90 days. Managers should communicate these responsibilities to the new staff member during their first week.',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Month three',
-                    items: [
-                        newChecklistItem('Deliver New Colleague Feedback'),
-                    ],
-                },
-            ],
-            create_public_playbook_run: false,
-            channel_name_template: 'Employee Onboarding: <name>',
-            message_on_join_enabled: true,
-            message_on_join:
-                mtrim`Hello and welcome!
-
-                This channel was created as part of the **Employee Onboarding** playbook and is where conversations related to onboarding this employee are held. You can customize this message using markdown so that every new channel member can be welcomed with helpful context and resources.`,
-            run_summary_template: '',
-            reminder_timer_default_seconds: 7 * 24 * 60 * 60, // once a week
-            retrospective_template:
-                mtrim`### What went well?
-                -
-
-                ### What could have gone better?
-                -
-
-                ### What should be changed for next time?
-                - `,
-            retrospective_reminder_interval_seconds: 0, // Once
-        },
-    },
-    {
-        title: 'Feature Lifecycle',
-        description: 'Create transparent workflows across development teams to ensure your feature development process is seamless.',
+        title: 'Внедрение новой функциональности в программу',
+        description: 'Создавайте прозрачные рабочие процессы между командами разработчиков, чтобы обеспечить беспрепятственный процесс разработки функций.',
         icon: <Gears/>,
         color: '#62697E14',
         author: <MattermostLogo/>,
         template: {
             ...emptyPlaybook(),
-            title: 'Feature Lifecycle',
-            description: 'Customize this playbook to reflect your own feature lifecycle process.',
+            title: 'Внедрение новой функциональности в программу',
+            description: 'Настройте этот сценарий так, чтобы он отражал ваш собственный процесс жизненного цикла новой функциональности.',
             checklists: [
                 {
-                    title: 'Plan',
+                    title: 'План',
                     items: [
-                        newChecklistItem('Explain what the problem is and why it\'s important'),
-                        newChecklistItem('Explain proposal for potential solutions'),
-                        newChecklistItem('List out open questions and assumptions'),
-                        newChecklistItem('Set the target release date'),
+                        newChecklistItem('Объяснение, в чем проблема и почему это важно'),
+                        newChecklistItem('Предложение возможных решений'),
+                        newChecklistItem('Перечислить открытые вопросы и предположения'),
+                        newChecklistItem('Установить срок'),
                     ],
                 },
                 {
-                    title: 'Kickoff',
+                    title: 'Старт',
                     items: [
                         newChecklistItem(
-                            'Choose an engineering owner for the feature',
-                            mtrim`Expectations for the owner:
-                            - Responsible for setting and meeting expectation for target dates' +
-                            - Post weekly status update' +
-                            - Demo feature at R&D meeting' +
-                            - Ensure technical quality after release`,
+                            'Выберите инженерного владельца для новой функции',
+                            mtrim`Ожидания от владельца:
+                            - Отвечает за установление и соблюдение ожидаемых сроков' +
+                            - Публиковать еженедельное обновление статуса' +
+                            - Демонстрационная функция на совещании по исследованиям и разработкам' +
+                            - Обеспечение технического качества после выпуска`,
                         ),
-                        newChecklistItem('Identify and invite contributors to the feature channel'),
+                        newChecklistItem('Определите и пригласите участников на функциональный канал'),
                         newChecklistItem(
-                            'Schedule kickoff and recurring check-in meetings',
-                            mtrim`Expectations leaving the kickoff meeting:
-                            - Alignment on the precise problem in addition to rough scope and target
-                            - Clear next steps and deliverables for each individual`,
-                        ),
-                    ],
-                },
-                {
-                    title: 'Build',
-                    items: [
-                        newChecklistItem(
-                            'Align on scope, quality, and time.',
-                            'There are likely many different efforts to achieve alignment here, this checkbox just symbolizes sign-off from contributors.',
-                        ),
-                        newChecklistItem('Breakdown feature milestones and add them to this checklist'),
-                    ],
-                },
-                {
-                    title: 'Ship',
-                    items: [
-                        newChecklistItem('Update documentation and user guides'),
-                        newChecklistItem('Merge all feature and bug PRs to master'),
-                        newChecklistItem(
-                            'Demo to the community',
-                            mtrim`For example:
-                            - R&D meeting
-                            - Developer meeting
-                            - Company wide meeting`
-                        ),
-                        newChecklistItem('Build telemetry dashboard to measure adoption'),
-                        newChecklistItem(
-                            'Create launch kit for go-to-market teams',
-                            mtrim`Including but not exclusive to:
-                            - release blog post
-                            - one-pager
-                            - demo video`,
+                            'Запланируйте стартовые и повторяющиеся контрольные встречи',
+                            mtrim`Ожидания после стартовой встречи:
+                            - Согласование с конкретной проблемой в дополнение к приблизительному объему и цели
+                            - Четкие следующие шаги и результаты для каждого человека`,
                         ),
                     ],
                 },
                 {
-                    title: 'Follow up',
+                    title: 'Создание',
                     items: [
-                        newChecklistItem('Schedule meeting to review adoption metrics and user feedback'),
-                        newChecklistItem('Plan improvements and next iteration'),
+                        newChecklistItem(
+                            'Согласуйте объем, качество и время.',
+                            'Здесь, вероятно, предпринимается много разных усилий для достижения согласованности, этот флажок просто символизирует одобрение со стороны участников.',
+                        ),
+                        newChecklistItem('Разбейте вехи функции разбивки и добавьте их в этот контрольный список'),
+                    ],
+                },
+                {
+                    title: 'Отгрузка',
+                    items: [
+                        newChecklistItem('Обновление документации и руководств пользователя'),
+                        newChecklistItem('Объедините все функции и сообщения об ошибках, чтобы освоить их'),
+                        newChecklistItem(
+                            'Демонстрация для сообщества',
+                            mtrim`Например:
+                            - Совещание по исследованиям и разработкам
+                            - Встреча разработчиков
+                            - Общее собрание компании`
+                        ),
+                        newChecklistItem('Создайте информационную панель телеметрии для измерения внедрения'),
+                    ],
+                },
+                {
+                    title: 'Развитие',
+                    items: [
+                        newChecklistItem('Запланируйте встречу для рассмотрения показателей внедрения и отзывов пользователей'),
+                        newChecklistItem('Планируйте улучшения и следующую итерацию'),
                     ],
                 },
             ],
             create_public_playbook_run: true,
-            channel_name_template: 'Feature: <name>',
+            channel_name_template: 'Функциональность: <name>',
             message_on_join_enabled: true,
             message_on_join:
-                mtrim`Hello and welcome!
+                mtrim`Привет и добро пожаловать!
 
-                This channel was created as part of the **Feature Lifecycle** playbook and is where conversations related to developing this feature are held. You can customize this message using Markdown so that every new channel member can be welcomed with helpful context and resources.`,
+                Этот канал был создан как часть сценария **Внедрение новой функциональности в программу**, и на нем ведутся обсуждения, связанные с разработкой этой функции. Вы можете настроить это сообщение с помощью Markdown, чтобы каждый новый участник канала мог приветствоваться полезным контекстом и ресурсами.`,
             run_summary_template_enabled: true,
             run_summary_template:
-                mtrim`**One-liner**
-                <ie. Enable users to prescribe a description template so it\'s consistent for every run and therefore easier to read.>
+                mtrim`**Одной строкой**
+                <т.е. Разрешить пользователям прописывать шаблон описания, чтобы он был согласованным для каждого запуска и, следовательно, его было легче читать.>
 
-                **Targets release**
-                - Code complete: date
-                - Customer release: month
+                **Релиз целей**
+                - Завершения кода: date
+                - Версия для клиентов: month
 
-                **Resources**
+                **Ресурсы**
                 - Jira Epic: <link>
                 - UX prototype: <link>
                 - Technical design: <link>
@@ -543,228 +333,70 @@ export const PresetTemplates: PresetTemplate[] = preprocessTemplates([
                 mtrim`### Demo
                 <Insert_GIF_here>
 
-                ### Changes since last week
+                ### Изменения с прошлой недели
                 -
 
-                ### Risks
+                ### Риски
                 - `,
             reminder_timer_default_seconds: 24 * 60 * 60, // 1 day
             retrospective_template:
-                mtrim`### Start
+                mtrim`### Начато
                 -
 
-                ### Stop
+                ### Завершено
                 -
 
-                ### Keep
+                ### В процессе
                 - `,
             retrospective_reminder_interval_seconds: 0, // Once
         },
     },
     {
-        title: 'Bug Bash',
-        description: 'Customize this playbook to reflect your own bug bash process.',
-        icon: <BugSearch/>,
-        color: '#7A560014',
-        author: <MattermostLogo/>,
-        template: {
-            ...emptyPlaybook(),
-            title: 'Bug Bash',
-            description: mtrim`About once or twice a month, the Mattermost Playbooks team uses this playbook to run a 50 minute bug-bash testing the latest version of Playbooks.
-
-            Customize this playbook to reflect your own bug bash process.`,
-            create_public_playbook_run: true,
-            channel_name_template: 'Bug Bash (vX.Y)',
-            checklists: [
-                {
-                    title: 'Setup Testing Environment (Before Meeting)',
-                    items: [
-                        newChecklistItem(
-                            'Deploy the build in question to community-daily',
-                        ),
-                        newChecklistItem(
-                            'Spin up a cloud instance running T0',
-                            '',
-                            '/cloud create playbooks-bug-bash-t0 --license te --image mattermost/mattermost-team-edition --test-data --version master',
-                        ),
-                        newChecklistItem(
-                            'Spin up a cloud instance running E0',
-                            '',
-                            '/cloud create playbooks-bug-bash-e0 --license te --test-data --version master',
-                        ),
-                        newChecklistItem(
-                            'Spin up a cloud instance running E10',
-                            '',
-                            '/cloud create playbooks-bug-bash-e10 --license e10 --test-data --version master',
-                        ),
-                        newChecklistItem(
-                            'Spin up a cloud instance running E20',
-                            '',
-                            '/cloud create playbooks-bug-bash-e20 --license e20 --test-data --version master',
-                        ),
-                        newChecklistItem(
-                            'Enable Open Servers & CRT for all Cloud Instances',
-                            mtrim`From a command line, login to each server in turn via [\`mmctl\`](https://github.com/mattermost/mmctl), and configure, e.g.:
-                                \`\`\`
-                                for server in playbooks-bug-bash-t0 playbooks-bug-bash-e0 playbooks-bug-bash-e10 playbooks-bug-bash-e20; do
-                                    mmctl auth login https://$server.test.mattermost.cloud --name $server --username sysadmin --password-file <(echo "Sys@dmin123");
-                                    mmctl config set TeamSettings.EnableOpenServer true;
-                                    mmctl config set ServiceSettings.CollapsedThreads default_on;
-                                done
-                                \`\`\``,
-                        ),
-                        newChecklistItem(
-                            'Install the plugin to each instance',
-                            mtrim`From a command line, login to each server in turn via [\`mmctl\`](https://github.com/mattermost/mmctl), and configure, e.g.:
-                                \`\`\`
-                                for server in playbooks-bug-bash-t0 playbooks-bug-bash-e0 playbooks-bug-bash-e10 playbooks-bug-bash-e20; do
-                                    mmctl auth login https://$server.test.mattermost.cloud --name $server --username sysadmin --password-file <(echo "Sys@dmin123");
-                                    mmctl plugin install-url --force https://github.com/mattermost/mattermost-plugin-playbooks/releases/download/v1.22.0%2Balpha.3/playbooks-1.22.0+alpha.3.tar.gz
-                                done
-                                \`\`\``,
-                        ),
-                        newChecklistItem(
-                            'Announce Bug Bash',
-                            'Make sure the team and community is aware of the upcoming bug bash.',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Define Scope (10 Minutes)',
-                    items: [
-                        newChecklistItem(
-                            'Review GitHub commit diff',
-                        ),
-                        newChecklistItem(
-                            'Identify new features to add to target testing areas checklist',
-                        ),
-                        newChecklistItem(
-                            'Identify existing functionality to add to target testing areas checklist',
-                        ),
-                        newChecklistItem(
-                            'Add relevant T0/E0/E10/E20 permutations',
-                        ),
-                        newChecklistItem(
-                            'Assign owners',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Target Testing Areas (30 Minutes)',
-                    items: [],
-                },
-                {
-                    title: 'Triage (10 Minutes)',
-                    items: [
-                        newChecklistItem(
-                            'Review issues to identify what to fix for the upcoming release',
-                        ),
-                        newChecklistItem(
-                            'Assign owners for all required bug fixes',
-                        ),
-                    ],
-                },
-                {
-                    title: 'Clean Up',
-                    items: [
-                        newChecklistItem(
-                            'Clean up cloud instance running T0',
-                            '',
-                            '/cloud delete playbooks-bug-bash-t0',
-                        ),
-                        newChecklistItem(
-                            'Clean up cloud instance running E0',
-                            '',
-                            '/cloud delete playbooks-bug-bash-e0',
-                        ),
-                        newChecklistItem(
-                            'Clean up cloud instance running E10',
-                            '',
-                            '/cloud delete playbooks-bug-bash-e10',
-                        ),
-                        newChecklistItem(
-                            'Clean up cloud instance running E20',
-                            '',
-                            '/cloud delete playbooks-bug-bash-e20',
-                        ),
-                    ],
-                },
-            ],
-            status_update_enabled: true,
-            message_on_join: mtrim`Welcome! We're using this channel to run a 50 minute bug-bash the new version of Playbooks. The first 10 minutes will be spent identifying scope and ownership, followed by 30 minutes of targeted testing in the defined areas, and 10 minutes of triage.
-
-            When you find an issue, post a new thread in this channel tagged #bug and share any screenshots and reproduction steps. The owner of this bash will triage the messages into tickets as needed.`,
-            message_on_join_enabled: true,
-            retrospective_enabled: false,
-            run_summary_template_enabled: true,
-            run_summary_template: mtrim`The playbooks team is executing a bug bash to qualify the next shipping version.
-
-            As we encounter issues, simply start a new thread and tag with #bug (or #feature) to make tracking these easier.
-
-            **Release Link**: TBD
-            **Zoom**: TBD
-            **Triage Filter**: https://mattermost.atlassian.net/secure/RapidBoard.jspa?rapidView=68&projectKey=MM&view=planning.nodetail&quickFilter=332&issueLimit=100
-
-            | Servers |
-            | -- |
-            | [T0](https://playbooks-bug-bash-t0.test.mattermost.cloud) |
-            | [E0](https://playbooks-bug-bash-e0.test.mattermost.cloud) |
-            | [E10](https://playbooks-bug-bash-e10.test.mattermost.cloud) |
-            | [E20](https://playbooks-bug-bash-e20.test.mattermost.cloud) |
-
-            Login with:
-
-            | Username | Password |
-            | -- | -- |
-            | sysadmin | Sys@dmin123 |`,
-        },
-    },
-    {
-        title: 'Learn how to use playbooks',
-        label: 'Recommended For Beginners',
+        title: 'Узнайте, как использовать сценарии',
+        label: 'Рекомендуется для начинающих',
         labelColor: '#E5AA1F29-#A37200',
         icon: <LightBulb/>,
         color: '#FFBC1F14',
         author: <MattermostLogo/>,
-        description: 'New to playbooks? This playbook will help you get familiar with playbooks, configurations, and playbook runs.',
+        description: 'Новичок в сценариях? Этот сценарий поможет вам ознакомиться с сценариями, конфигурациями и запусками.',
         template: {
             ...emptyPlaybook(),
-            title: 'Learn how to use playbooks',
-            description: mtrim`Use this playbook to learn more about playbooks. Go through this page to check out the contents or simply select ‘start a test run’ in the top right corner.`,
+            title: 'Узнайте, как использовать сценарии',
+            description: mtrim`Используйте этот учебник, чтобы узнать больше о сборниках сценариев. Перейдите на эту страницу, чтобы проверить содержимое, или просто выберите «Начать тестовый запуск» в правом верхнем углу.`,
             create_public_playbook_run: true,
-            channel_name_template: 'Onboarding Run',
+            channel_name_template: 'Вводный курс',
             checklists: [
                 {
-                    title: 'Learn',
+                    title: 'Знакомство',
                     items: [
                         newChecklistItem(
-                            'Try editing the run name or description in the top section of this page.',
+                            'Попробуйте изменить название или описание цикла в верхней части этой страницы.',
                         ),
                         newChecklistItem(
-                            'Try checking off the first two tasks!',
+                            'Попробуйте отметить первые две задачи!',
                         ),
                         newChecklistItem(
-                            'Assign a task to yourself or another member.',
+                            'Назначьте задачу себе или другому участнику.',
                         ),
                         newChecklistItem(
-                            'Post your first status update.',
+                            'Разместите свое первое обновление статуса.',
                         ),
                         newChecklistItem(
-                            'Complete your first checklist!',
+                            'Заполните свой первый чек-лист!',
                         ),
                     ],
                 },
                 {
-                    title: 'Collaborate',
+                    title: 'Сотрудничество',
                     items: [
                         newChecklistItem(
-                            'Invite other team members that you’d like to collaborate with.',
+                            'Пригласите других членов команды, с которыми вы хотели бы сотрудничать.',
                         ),
                         newChecklistItem(
-                            'Skip a task.',
+                            'Пропустить задание.',
                         ),
                         newChecklistItem(
-                            'Finish the run.',
+                            'Закончить запуск.',
                         ),
                     ],
                 },
@@ -775,11 +407,11 @@ export const PresetTemplates: PresetTemplate[] = preprocessTemplates([
             message_on_join_enabled: false,
             retrospective_enabled: false,
             run_summary_template_enabled: true,
-            run_summary_template: mtrim`This summary area helps everyone involved gather context at a glance. It supports markdown syntax just like a channel message, just click to edit and try it out!
+            run_summary_template: mtrim`Эта сводная область помогает всем участникам быстро собрать контекст. Он поддерживает синтаксис Markdown (язык разметки) так же, как в сообщениях канала. Просто нажмите, чтобы отредактировать и попробовать!
 
-            - Start date: 20 Dec, 2021
-            - Target date: To be determined
-            - User guide: Playbooks docs`,
+            - Дата начала: 17 Июл, 2023
+            - Целевая дата: Будет определена
+            - Руководство пользователя: документы сценариев`,
         },
     },
 ]);

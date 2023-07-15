@@ -145,13 +145,13 @@ export interface DraftPlaybookWithChecklist extends Omit<PlaybookWithChecklist, 
 // setPlaybookDefaults fills in a playbook with defaults for any fields left empty.
 export const setPlaybookDefaults = (playbook: DraftPlaybookWithChecklist) => ({
     ...playbook,
-    title: playbook.title.trim() || 'Untitled playbook',
+    title: playbook.title.trim() || 'Сценарий без названия',
     checklists: playbook.checklists.map((checklist) => ({
         ...checklist,
-        title: checklist.title || 'Untitled checklist',
+        title: checklist.title || 'Чек-лист без названия',
         items: checklist.items.map((item) => ({
             ...item,
-            title: item.title || 'Untitled task',
+            title: item.title || 'Задача без названия',
         })),
     })),
 });
@@ -271,30 +271,30 @@ export const newMetric = (type: MetricType, title = '', description = '', target
     target,
 });
 
-export const defaultMessageOnJoin = `Welcome! This channel was automatically created as part of a playbook run. You can [learn more about playbooks here](https://docs.mattermost.com/guides/playbooks.html). To see information about this run, such as current owner and checklist of tasks, select the shield icon in the channel header.
+export const defaultMessageOnJoin = `Добро пожаловать! Этот канал был автоматически создан как часть запуска сценария. Вы можете [узнать больше о сценариях здесь](https://docs.mattermost.com/guides/playbooks.html). Чтобы увидеть информацию об этом запуске, такую как текущий владелец и чек-лист задач, щелкните значок щита в заголовке канала.
 
-Here are some resources that you may find helpful:
-[Mattermost community channel](https://community.mattermost.com/core/channels/developers-playbooks)
-[User guide and documentation](https://docs.mattermost.com/guides/playbooks.html)`;
+Вот некоторые ресурсы, которые могут оказаться полезными:
+[Канал сообщества Mattermost](https://community.mattermost.com/core/channels/developers-playbooks)
+[Руководство пользователя и документация](https://docs.mattermost.com/guides/playbooks.html)`;
 
-export const defaultRetrospectiveTemplate = `### Summary
-This should contain 2-3 sentences that give a reader an overview of what happened, what was the cause, and what was done. The briefer the better as this is what future teams will look at first for reference.
+export const defaultRetrospectiveTemplate = `### Сводка
+Он должен содержать 2-3 предложения, которые дают читателю общее представление о том, что произошло, какова была причина и что было сделано. Чем короче, тем лучше, так как это то, на что будущие команды будут смотреть в первую очередь для справки.
 
-### What was the impact?
-This section describes the impact of this playbook run as experienced by internal and external customers as well as stakeholders.
+### Каково было влияние?
+В этом разделе описывается влияние этого сценария на опыт внутренних и внешних клиентов, а также заинтересованных сторон.
 
-### What were the contributing factors?
-This playbook may be a reactive protocol to a situation that is otherwise undesirable. If that's the case, this section explains the reasons that caused the situation in the first place. There may be multiple root causes - this helps stakeholders understand why.
+### Каковы были способствующие факторы?
+Этот сценарий может быть реактивным протоколом к ситуации, которая в противном случае нежелательна. Если это так, в этом разделе объясняются причины, вызвавшие ситуацию в первую очередь. Может быть несколько основных причин — это помогает заинтересованным сторонам понять, почему.
 
-### What was done?
-This section tells the story of how the team collaborated throughout the event to achieve the outcome. This will help future teams learn from this experience on what they could try.
+### Что было сделано?
+В этом разделе рассказывается о том, как команда сотрудничала на протяжении всего мероприятия для достижения результата. Это поможет будущим командам узнать из этого опыта о том, что они могут попробовать.
 
-### What did we learn?
-This section should include perspective from everyone that was involved to celebrate the victories and identify areas for improvement. For example: What went well? What didn't go well? What should be done differently next time?
+### Что мы узнали?
+Этот раздел должен включать точки зрения всех, кто участвовал в праздновании побед и определении областей, требующих улучшения. Например: Что прошло хорошо? Что не получилось? Что нужно сделать по-другому в следующий раз?
 
-### Follow-up tasks
-This section lists the action items to turn learnings into changes that help the team become more proficient with iterations. It could include tweaking the playbook, publishing the retrospective, or other improvements. The best follow-ups will have a clear owner as well as due date.
+### Последующие задачи
+В этом разделе перечислены действия, которые помогут преобразовать полученные знания в изменения, которые помогут команде стать более опытной в итерациях. Это может включать настройку сценария, публикацию ретроспективы или другие улучшения. У лучших последующих действий будет четкий владелец, а также срок выполнения.
 
-### Timeline highlights
-This section is a curated log that details the most important moments. It can contain key communications, screen shots, or other artifacts. Use the built-in timeline feature to help you retrace and replay the sequence of events.`;
+### Основные моменты хронологии
+Этот раздел представляет собой тщательно подобранный журнал, в котором подробно описаны наиболее важные моменты. Он может содержать ключевые сообщения, снимки экрана или другие артефакты. Используйте встроенную функцию временной шкалы, чтобы проследить и воспроизвести последовательность событий.`;
 
