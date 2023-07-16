@@ -1,9 +1,9 @@
 {
     "id": "playbooks",
-    "name": "Playbooks",
-    "description": "Mattermost Playbooks enable reliable and repeatable processes for your teams using checklists, automation, and retrospectives.",
-    "homepage_url": "https://github.com/mattermost/mattermost-plugin-playbooks/",
-    "support_url": "https://github.com/mattermost/mattermost-plugin-playbooks/issues",
+    "name": "Сценарии",
+    "description": "Mattermost Сценарии обеспечивает надежные и воспроизводимые процессы для ваших команд, используя чек-листы, автоматизацию и ретроспективы.",
+    "homepage_url": "https://github.com/WendyH/mattermost-plugin-playbooks/",
+    "support_url": "https://github.com/WendyH/mattermost-plugin-playbooks/issues",
     "icon_path": "assets/plugin_icon.svg",
     "min_server_version": "7.6.0",
     "server": {
@@ -25,8 +25,8 @@
         {
             "key": "EnableExperimentalFeatures",
             "type": "bool",
-            "display_name": "Enable Experimental Features:",
-            "help_text": "Enable experimental features that come with in-progress UI, bugs, and cool stuff."
+            "display_name": "Включить экспериментальные функции:",
+            "help_text": "Включите экспериментальные функции, которые поставляются с незавершенным пользовательским интерфейсом, ошибками и интересными вещами."
         }
         ]
     }
