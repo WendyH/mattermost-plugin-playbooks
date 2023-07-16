@@ -49,10 +49,10 @@ func RegisterCommands(registerFunc Register, addTestCommands bool) error {
 func getCommand(addTestCommands bool) *model.Command {
 	return &model.Command{
 		Trigger:          "playbook",
-		DisplayName:      "Playbook",
-		Description:      "Playbooks",
+		DisplayName:      "Сценарии",
+		Description:      "Сценарии",
 		AutoComplete:     true,
-		AutoCompleteDesc: "Available commands: run, finish, update, check, list, owner, info, todo, settings",
+		AutoCompleteDesc: "Доступные команды: run, finish, update, check, list, owner, info, todo, settings",
 		AutoCompleteHint: "[command]",
 		AutocompleteData: getAutocompleteData(addTestCommands),
 	}
@@ -60,91 +60,91 @@ func getCommand(addTestCommands bool) *model.Command {
 
 func getAutocompleteData(addTestCommands bool) *model.AutocompleteData {
 	command := model.NewAutocompleteData("playbook", "[command]",
-		"Available commands: run, finish, update, check, checkadd, checkremove, list, owner, info, timeline, todo, settings")
+		"Доступные команды: run, finish, update, check, checkadd, checkremove, list, owner, info, timeline, todo, settings")
 
 	run := model.NewAutocompleteData("run", "", "Starts a new playbook run")
 	command.AddCommand(run)
 
 	finish := model.NewAutocompleteData("finish", "",
-		"Finishes a playbook run associated with the current channel")
+		"Завершает запуск сценария, связанный с текущим каналом")
 	finish.AddDynamicListArgument(
-		"List of channel runs is loading",
+		"Список запусков канала загружается",
 		"api/v0/runs/runs-autocomplete", true)
 	command.AddCommand(finish)
 
 	update := model.NewAutocompleteData("update", "",
-		"Provide a status update.")
+		"Предоставляет обновление статуса.")
 	update.AddDynamicListArgument(
-		"List of channel runs is loading",
+		"Список запусков канала загружается",
 		"api/v0/runs/runs-autocomplete", true)
 	command.AddCommand(update)
 
 	checklist := model.NewAutocompleteData("check", "[checklist item]",
-		"Checks or unchecks a checklist item.")
+		"Ставит или снимает отметку с элемента чек-листа.")
 	checklist.AddDynamicListArgument(
-		"List of checklist items is loading",
+		"Список пунктов чек-листа загружается",
 		"api/v0/runs/checklist-autocomplete-item", true)
 	command.AddCommand(checklist)
 
 	itemAdd := model.NewAutocompleteData("checkadd", "[checklist]",
-		"Add a checklist item")
+		"Добавить элемент чек-листа")
 	itemAdd.AddDynamicListArgument(
-		"List of checklist items is loading",
+		"Список пунктов чек-листа загружается",
 		"api/v0/runs/checklist-autocomplete", true)
 
 	itemRemove := model.NewAutocompleteData("checkremove", "[checklist item]",
-		"Remove a checklist item")
+		"Удалить элемент чек-листа")
 	itemRemove.AddDynamicListArgument(
-		"List of checklist items is loading",
+		"Список пунктов чек-листа загружается",
 		"api/v0/runs/checklist-autocomplete-item", true)
 
 	command.AddCommand(itemAdd)
 	command.AddCommand(itemRemove)
 
 	owner := model.NewAutocompleteData("owner", "[@username]",
-		"Show or change the current owner")
+		"Показать или изменить текущего владельца")
 	owner.AddDynamicListArgument(
-		"List of channel runs is loading",
+		"Список запусков канала загружается",
 		"api/v0/runs/runs-autocomplete", true)
 	owner.AddTextArgument("The desired new owner.", "[@username]", "")
 	command.AddCommand(owner)
 
-	info := model.NewAutocompleteData("info", "", "Shows a summary of the current playbook run")
+	info := model.NewAutocompleteData("info", "", "Показывает сводку текущего запуска сценария")
 	info.AddDynamicListArgument(
-		"List of channel runs is loading",
+		"Список запусков канала загружается",
 		"api/v0/runs/runs-autocomplete", true)
 	command.AddCommand(info)
 
-	timeline := model.NewAutocompleteData("timeline", "", "Shows the timeline for the current playbook run")
+	timeline := model.NewAutocompleteData("timeline", "", "Показывает временную шкалу текущего запуска сценария")
 	timeline.AddDynamicListArgument(
-		"List of channel runs is loading",
+		"Список запусков канала загружается",
 		"api/v0/runs/runs-autocomplete", true)
 	command.AddCommand(timeline)
 
-	todo := model.NewAutocompleteData("todo", "", "Get a list of your assigned tasks")
+	todo := model.NewAutocompleteData("todo", "", "Получить список поставленных задач")
 	command.AddCommand(todo)
 
-	settings := model.NewAutocompleteData("settings", "", "Change personal playbook settings")
-	display := model.NewAutocompleteData(" ", "Display current settings", "")
+	settings := model.NewAutocompleteData("settings", "", "Изменить настройки личного сценария")
+	display := model.NewAutocompleteData(" ", "Показать текущие настройки", "")
 	settings.AddCommand(display)
 
-	weeklyDigest := model.NewAutocompleteData("weekly-digest", "[on/off]", "Turn weekly digest on/off")
+	weeklyDigest := model.NewAutocompleteData("weekly-digest", "[on/off]", "Включить/выключить еженедельный дайджест")
 	weeklyDigestValues := []model.AutocompleteListItem{{
-		HelpText: "Turn weekly digest on",
+		HelpText: "Включить еженедельный дайджест",
 		Item:     "on",
 	}, {
-		HelpText: "Turn weekly digest off",
+		HelpText: "Выключить еженедельный дайджест",
 		Item:     "off",
 	}}
 	weeklyDigest.AddStaticListArgument("", true, weeklyDigestValues)
 	settings.AddCommand((weeklyDigest))
 
-	digest := model.NewAutocompleteData("digest", "[on/off]", "Turn digest on/off")
+	digest := model.NewAutocompleteData("digest", "[on/off]", "Включить/выключить ежедневный дайджест")
 	digestValue := []model.AutocompleteListItem{{
-		HelpText: "Turn daily digest on",
+		HelpText: "Включить ежедневный дайджест",
 		Item:     "on",
 	}, {
-		HelpText: "Turn daily digest off",
+		HelpText: "Выключить ежедневный дайджест",
 		Item:     "off",
 	}}
 	digest.AddStaticListArgument("", true, digestValue)
@@ -152,7 +152,7 @@ func getAutocompleteData(addTestCommands bool) *model.AutocompleteData {
 	command.AddCommand(settings)
 
 	if addTestCommands {
-		test := model.NewAutocompleteData("test", "", "Commands for testing and debugging.")
+		test := model.NewAutocompleteData("test", "", "Команды для тестирования и отладки.")
 
 		testGeneratePlaybooks := model.NewAutocompleteData("create-playbooks", "[total playbooks]", "Create one or more playbooks based on number of playbooks defined")
 		testGeneratePlaybooks.AddTextArgument("An integer indicating how many playbooks will be generated (at most 5).", "Number of playbooks", "")
