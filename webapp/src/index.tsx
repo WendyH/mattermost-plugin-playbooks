@@ -175,7 +175,7 @@ export default class Plugin {
         registry.registerProduct(
             '/playbooks',
             'product-playbooks',
-            'Playbooks',
+            'Сценарии',
             '/playbooks',
             BackstageWrapped,
             GlobalHeaderCenter,

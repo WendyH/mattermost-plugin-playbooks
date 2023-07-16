@@ -119,8 +119,8 @@ func (p *Plugin) OnActivate() error {
 
 	botID, err := pluginAPIClient.Bot.EnsureBot(&model.Bot{
 		Username:    "playbooks",
-		DisplayName: "Playbooks",
-		Description: "Playbooks bot.",
+		DisplayName: "Сыенарии",
+		Description: "Бот сценариев",
 		OwnerId:     "playbooks",
 	},
 		pluginapi.ProfileImagePath("assets/plugin_icon.png"),
