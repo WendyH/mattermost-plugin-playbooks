@@ -11,10 +11,12 @@ import MattermostLogo from 'src/components/assets/mattermost_logo_svg';
 import ClipboardChecklist from 'src/components/assets/illustrations/clipboard_checklist_svg';
 import DumpsterFire from 'src/components/assets/illustrations/dumpster_fire_svg';
 import Gears from 'src/components/assets/illustrations/gears_svg';
-import Handshake from 'src/components/assets/illustrations/handshake_svg';
+
+//import Handshake from 'src/components/assets/illustrations/handshake_svg';
 import Rocket from 'src/components/assets/illustrations/rocket_svg';
-import SmileySunglasses from 'src/components/assets/illustrations/smiley_sunglasses_svg';
-import BugSearch from 'src/components/assets/illustrations/bug_search_svg';
+
+//import SmileySunglasses from 'src/components/assets/illustrations/smiley_sunglasses_svg';
+//import BugSearch from 'src/components/assets/illustrations/bug_search_svg';
 import LightBulb from 'src/components/assets/illustrations/light_bulb_svg';
 
 export interface PresetTemplate {

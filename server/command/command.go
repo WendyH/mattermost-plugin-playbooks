@@ -1819,7 +1819,7 @@ var dummyListPlaybooks = []app.Playbook{
 // user is a member of, and the randomness is controlled by the `seed` parameter
 // to create reproducible results if needed.
 func (r *Runner) generateTestData(numActivePlaybookRuns, numEndedPlaybookRuns int, begin, end time.Time, seed int64) {
-	rand.Seed(seed)
+	//rand.Seed(seed)
 
 	beginMillis := begin.Unix() * 1000
 	endMillis := end.Unix() * 1000
