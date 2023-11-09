@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/mattermost/mattermost-plugin-playbooks/client"
+	"github.com/mattermost/mattermost-plugin-playbooks/server/safemapstructure"
 	"github.com/mattermost/mattermost-server/v6/model"
-	"github.com/mitchellh/mapstructure"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -63,13 +63,32 @@ func TestActionCreation(t *testing.T) {
 			ActionType:  client.ActionTypePromptRunPlaybook,
 			TriggerType: client.TriggerTypeKeywordsPosted,
 			Payload: client.PromptRunPlaybookFromKeywordsPayload{
-				Keywords: []string{"one"},
+				Keywords:   []string{"one"},
+				PlaybookID: e.BasicPlaybook.ID,
 			},
 		})
 
 		// Verify that the API succeeds
 		assert.NoError(t, err)
 		assert.NotEmpty(t, actionID)
+	})
+
+	t.Run("create playbook action no permissions to playbook", func(t *testing.T) {
+		// Create a brand new channel
+		channel := createNewChannel(t, "create-playbook-action-no-permissions")
+
+		_, err := e.PlaybooksClient.Actions.Create(context.Background(), channel.Id, client.ChannelActionCreateOptions{
+			ChannelID:   channel.Id,
+			Enabled:     true,
+			ActionType:  client.ActionTypePromptRunPlaybook,
+			TriggerType: client.TriggerTypeKeywordsPosted,
+			Payload: client.PromptRunPlaybookFromKeywordsPayload{
+				Keywords:   []string{"one"},
+				PlaybookID: e.PrivatePlaybookNoMembers.ID,
+			},
+		})
+
+		requireErrorWithStatusCode(t, err, http.StatusForbidden)
 	})
 
 	t.Run("create invalid action - duplicate action and trigger types", func(t *testing.T) {
@@ -186,7 +205,7 @@ func TestActionCreation(t *testing.T) {
 			TriggerType: client.TriggerTypeKeywordsPosted,
 			Payload: client.PromptRunPlaybookFromKeywordsPayload{
 				Keywords:   []string{"one", "two"},
-				PlaybookID: model.NewId(),
+				PlaybookID: e.BasicPlaybook.ID,
 			},
 		})
 
@@ -224,7 +243,7 @@ func TestActionList(t *testing.T) {
 	})
 	assert.NoError(t, err)
 
-	playbookID := model.NewId()
+	playbookID := e.BasicPlaybook.ID
 	promptActionID, err := e.PlaybooksClient.Actions.Create(context.Background(), e.BasicPublicChannel.Id, client.ChannelActionCreateOptions{
 		ChannelID:   e.BasicPublicChannel.Id,
 		Enabled:     true,
@@ -250,19 +269,19 @@ func TestActionList(t *testing.T) {
 			switch action.ID {
 			case welcomeActionID:
 				var payload client.WelcomeMessagePayload
-				err = mapstructure.Decode(action.Payload, &payload)
+				err = safemapstructure.Decode(action.Payload, &payload)
 				assert.NoError(t, err)
 				assert.Equal(t, "msg", payload.Message)
 
 			case categorizeActionID:
 				var payload client.CategorizeChannelPayload
-				err = mapstructure.Decode(action.Payload, &payload)
+				err = safemapstructure.Decode(action.Payload, &payload)
 				assert.NoError(t, err)
 				assert.Equal(t, "category", payload.CategoryName)
 
 			case promptActionID:
 				var payload client.PromptRunPlaybookFromKeywordsPayload
-				err = mapstructure.Decode(action.Payload, &payload)
+				err = safemapstructure.Decode(action.Payload, &payload)
 				assert.NoError(t, err)
 				assert.EqualValues(t, []string{"one", "two"}, payload.Keywords)
 				assert.Equal(t, playbookID, payload.PlaybookID)
@@ -367,7 +386,7 @@ func TestActionUpdate(t *testing.T) {
 		assert.Len(t, actions, 1)
 		fetchedAction := actions[0]
 		var fetchedPayload client.PromptRunPlaybookFromKeywordsPayload
-		err = mapstructure.Decode(fetchedAction.Payload, &fetchedPayload)
+		err = safemapstructure.Decode(fetchedAction.Payload, &fetchedPayload)
 		assert.NoError(t, err)
 
 		// Verify that the payload of the created action has one keyword
@@ -392,11 +411,32 @@ func TestActionUpdate(t *testing.T) {
 		assert.Len(t, updatedActions, 1)
 		updatedAction := updatedActions[0]
 		var updatedPayload client.PromptRunPlaybookFromKeywordsPayload
-		err = mapstructure.Decode(updatedAction.Payload, &updatedPayload)
+		err = safemapstructure.Decode(updatedAction.Payload, &updatedPayload)
 		assert.NoError(t, err)
 
 		// Verify that the payload of the updated action has no keywords
 		assert.Len(t, updatedPayload.Keywords, 0)
+	})
+
+	t.Run("invalid update - permissions", func(t *testing.T) {
+		actionOld := action
+		defer func() {
+			// Restore the original action
+			action = actionOld
+		}()
+		// Make an invalid modification
+		action.Payload = client.PromptRunPlaybookFromKeywordsPayload{
+			Keywords:   []string{"one"},
+			PlaybookID: e.PrivatePlaybookNoMembers.ID,
+		}
+		action.TriggerType = client.TriggerTypeKeywordsPosted
+		action.ActionType = client.ActionTypePromptRunPlaybook
+
+		// Make the Update request
+		err := e.PlaybooksClient.Actions.Update(context.Background(), action)
+
+		// Verify that the API fails with a permissions error
+		requireErrorWithStatusCode(t, err, http.StatusForbidden)
 	})
 
 	t.Run("invalid update - wrong action type", func(t *testing.T) {

@@ -5,18 +5,40 @@ import {Store} from 'redux';
 import {GlobalState} from '@mattermost/types/store';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-webapp/packages/mattermost-redux/src/selectors/entities/users';
+import {ApolloClient, NormalizedCacheObject, gql} from '@apollo/client';
 
 import {matchPath} from 'react-router-dom';
 
-import {fetchPlaybookRuns, telemetryEventForPlaybookRun} from 'src/client';
+import {telemetryEventForPlaybookRun} from 'src/client';
 import {currentPlaybookRun, inPlaybookRunChannel, isPlaybookRunRHSOpen} from 'src/selectors';
 import {PlaybookRunStatus} from 'src/types/playbook_run';
 
 import {receivedTeamPlaybookRuns, toggleRHS} from 'src/actions';
 import {browserHistory} from 'src/webapp_globals';
 
-export function makeRHSOpener(store: Store<GlobalState>): () => Promise<void> {
+const RunsOnTeamQuery = gql`
+    query RunsOnTeamQuery(
+        $participant: String!,
+        $teamID: String!,
+        $status: String!,
+    ) {
+        runs(
+            teamID: $teamID,
+            statuses: [$status],
+            participantOrFollowerID: $participant,
+        ) {
+            edges {
+                node {
+                    channel_id: channelID
+                    team_id: teamID
+                }
+            }
+        }
+    }
+`;
+
+export function makeRHSOpener(store: Store<GlobalState>, graphqlClient: ApolloClient<NormalizedCacheObject>): () => Promise<void> {
     let currentTeamId = '';
     let currentChannelId = '';
     let currentChannelIsPlaybookRun = false;
@@ -41,14 +63,18 @@ export function makeRHSOpener(store: Store<GlobalState>): () => Promise<void> {
         if (currentTeamId !== currentTeam.id) {
             currentTeamId = currentTeam.id;
             const currentUserId = getCurrentUserId(state);
-            const fetched = await fetchPlaybookRuns({
-                page: 0,
-                per_page: 0,
-                team_id: currentTeam.id,
-                participant_id: currentUserId,
-                statuses: [PlaybookRunStatus.InProgress],
+
+            const fetched = await graphqlClient.query({
+                query: RunsOnTeamQuery,
+                variables: {
+                    participant: currentUserId,
+                    teamID: currentTeam.id,
+                    status: PlaybookRunStatus.InProgress,
+                },
             });
-            store.dispatch(receivedTeamPlaybookRuns(fetched.items));
+
+            const runs = fetched.data.runs.edges.map((edge: any) => edge.node);
+            store.dispatch(receivedTeamPlaybookRuns(runs));
         }
 
         const searchParams = new URLSearchParams(url.searchParams);
@@ -56,8 +82,10 @@ export function makeRHSOpener(store: Store<GlobalState>): () => Promise<void> {
         if (searchParams.has('telem_action') && searchParams.has('telem_run_id')) {
             // Record and remove telemetry
             const action = searchParams.get('telem_action') || '';
-            const runId = searchParams.get('telem_run_id') || '';
-            telemetryEventForPlaybookRun(runId, action);
+            const runId = searchParams.get('telem_run_id')?.match(/^\w+$/)?.[0] || '';
+            if (action && runId) {
+                telemetryEventForPlaybookRun(runId, action);
+            }
             searchParams.delete('telem_action');
             searchParams.delete('telem_run_id');
             browserHistory.replace({pathname: url.pathname, search: searchParams.toString()});

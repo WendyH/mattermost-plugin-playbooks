@@ -85,6 +85,7 @@ func (r *RunRootResolver) Runs(ctx context.Context, args struct {
 		Types:                   args.Types,
 		Page:                    page,
 		PerPage:                 perPage,
+		SkipExtras:              true,
 	}
 
 	runResults, err := c.playbookRunService.GetPlaybookRuns(requesterInfo, filterOptions)
@@ -311,6 +312,10 @@ func (r *RunRootResolver) UpdateRunTaskActions(ctx context.Context, args struct 
 		return "", err
 	}
 	userID := c.r.Header.Get("Mattermost-User-ID")
+
+	if err = c.permissions.RunManageProperties(userID, args.RunID); err != nil {
+		return "", err
+	}
 
 	if err := validateTaskActions(*args.TaskActions); err != nil {
 		return "", err
